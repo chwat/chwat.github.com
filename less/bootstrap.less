@@ -1,0 +1,511 @@
+/*
+  Bootstrap v1.1 - Tweaked
+  Props and original courtesy of https://github.com/markdotto/Preboot.less
+*/
+
+
+/* Variables
+-------------------------------------------------- */
+
+// Colors: Grays
+@c_white:             rgb(255,255,255);
+@c_grey:              rgb(85,85,85);
+@c_grey_l:            lighten(@c_grey, 10%);
+@c_grey_l2:           lighten(@c_grey_l, 10%);
+@c_grey_d:            darken(@c_grey, 10%);
+@c_grey_d2:           darken(@c_grey_d, 10%);
+@c_black:             rgb(0,0,0);
+
+// Colors: Other
+
+
+// Grid: Baseline
+@baseline:          20px;
+
+// Grid: Details
+@gridColumns:       12;
+@gridColumnWidth:   60px;
+@gridGutterWidth:   20px;
+@siteWidth:         (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
+
+// messages
+@m_pdf: "PDF Document";
+@m_zip: ".zip Document";
+@m_jpg: "JPG image";
+
+/* Mixins
+-------------------------------------------------- */
+
+// Clearfix for clearing floats like a boss
+.clearfix {
+  zoom: 1;
+  &:after {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    content: ".";
+  }
+}
+
+.ir {
+  display: block; 
+  border: 0; 
+  text-indent: -999em; 
+  overflow: hidden; 
+  background-color: transparent; 
+  background-repeat: no-repeat; 
+  text-align: left; 
+  direction: ltr; 
+  *line-height: 0;
+}
+
+.sr { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.sr.focusable:active, .sr.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+.invisible { visibility: hidden; }
+.visible { visibility: visible; }
+
+// wrapping
+.wrap() {
+  text-wrap: wrap;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-wrap: break-word;
+}
+
+.non-list() {
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.fake-link() {
+  cursor: pointer;
+}
+
+// Center-align a block level element
+.center-block { 
+  display: block;
+  margin: 0 auto;
+}
+
+// Sizing shortcuts
+.size(@width: 5px, @height: 5px) {
+  height: @height;
+  width: @width;
+}
+.square(@size: 5px) {
+  .size(@size, @size);
+}
+
+// Input placeholder text
+.placeholder(@color: @c_grey_l) {
+  :-moz-placeholder {
+    color: @color;
+  }
+  ::-webkit-input-placeholder {
+    color: @color;
+  }
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Font Stacks
+#font {
+  .shorthand(@weight: normal, @size: 14px, @lineHeight: 20px) {
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+  .sans-serif(@weight: normal, @size: 14px, @lineHeight: 20px) {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+  .serif(@weight: normal, @size: 14px, @lineHeight: 20px) {
+    font-family: "Georgia", Times New Roman, Times, sans-serif;
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+  .monospace(@weight: normal, @size: 12px, @lineHeight: 20px) {
+    font-family: "Monaco", Courier New, monospace;
+    font-size: @size;
+    font-weight: @weight;
+    line-height: @lineHeight;
+  }
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Grid System
+.container {
+  width: @siteWidth;
+  margin: 0 auto;
+  .clearfix();
+}
+.columns(@columnSpan: 1) {
+  display: inline;
+  float: left;
+  width: (@gridColumnWidth * @columnSpan) + (@gridGutterWidth * (@columnSpan - 1));
+  margin-left: @gridGutterWidth;
+  &:first-child {
+    margin-left: 0;
+  }
+}
+.offset(@columnOffset: 1) {
+  margin-left: (@gridColumnWidth * @columnOffset) + (@gridGutterWidth * (@columnOffset - 1)) !important;
+}
+
+// markup execution
+div.grid {
+  .container();
+
+  div.span1 { .columns(1); }
+  div.span2 { .columns(2); }
+  div.span3 { .columns(3); }
+  div.span4 { .columns(4); }
+  div.span5 { .columns(5); }
+  div.span6 { .columns(6); }
+  div.span7 { .columns(7); }
+  div.span8 { .columns(8); }
+  div.span9 { .columns(9); }
+  div.span10 { .columns(10); }
+  div.span11 { .columns(11); }
+  div.span12 { .columns(12); }
+
+  div.offset1 { .offset(1); }
+  div.offset2 { .offset(2); }
+  div.offset3 { .offset(3); }
+  div.offset4 { .offset(4); }
+  div.offset5 { .offset(5); }
+  div.offset6 { .offset(6); }
+  div.offset7 { .offset(7); }
+  div.offset8 { .offset(8); }
+  div.offset9 { .offset(9); }
+  div.offset10 { .offset(10); }
+  div.offset11 { .offset(11); }
+}
+
+// CSS3 Flexible Box Module
+#flexbox {
+  // #flexbox > .display-box; must be used along with other flexbox mixins
+  .display-box { 
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+  }
+  // Box align [ start | end | center | baseline | stretch ]
+  .box-align(@alignment: stretch) {
+    -moz-box-align: @alignment;
+    -webkit-box-align: @alignment;
+    box-align: @alignment;
+  }
+  // Box direction [ normal | reverse | inherit ]
+  .box-direction(@direction: normal) {
+    -moz-box-direction: @direction;
+    -webkit-box-direction: @direction;
+    box-direction: @direction;
+  }
+  // Box flex [ integer ]
+  .box-flex(@flex: 0) {
+    -moz-box-flex: @flex;
+    -webkit-box-flex: @flex;
+    box-flex: @flex;
+  }
+  // Box flex group [ integer ]
+  .box-flex-group(@group: 1) {
+    -moz-box-flex-group: @group;
+    -webkit-box-flex-group: @group;
+    box-flex-group: @group;
+  }
+  // Box orientation [ horizontal | vertical | inline-axis | block-axis | inherit ]
+  .box-orient(@orientation: horizontal) {
+    -moz-box-orient: @orientation;
+    -webkit-box-orient: @orientation;
+    box-orient: @orientation;
+  }
+  // Box ordinal group [ integer ]
+  .box-ordinal-group(@group: 1) {
+    -moz-box-ordinal-group: @group;
+    -webkit-box-ordinal-group:@group;
+    box-flex-ordinal-group: @group;
+  }
+  // Box pack  [ start | end | center | justify ]
+  .box-pack(@pack: start) {
+    -moz-box-pack: @pack;
+    -webkit-box-pack: @pack;
+    box-pack: @pack;
+  }
+}
+
+// CSS3 Content Columns
+.content-columns(@columnCount, @columnGap: 20px) {
+  -webkit-column-count: @columnCount;
+  -webkit-column-gap: @columnGap;
+  -moz-column-count: @columnCount;
+  -moz-column-gap: @columnGap;
+  column-count: @columnCount;
+  column-gap: @columnGap;
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Transitions
+.transition(@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  transition: @transition;
+}
+
+// Animations
+.rotation(@deg:5deg){
+  -webkit-transform: rotate(@deg);
+  -moz-transform: rotate(@deg);
+  transform: rotate(@deg);
+}
+.scale(@ratio:1.5){
+  -webkit-transform:scale(@ratio);
+  -moz-transform:scale(@ratio);
+  transform:scale(@ratio);
+}
+
+// perspective
+.perspective(@perspective) {
+  -webkit-perspective: @perspective;
+  -moz-perspective: @perspective;
+  -o-perspective: @perspective;
+  perspective: @perspective;
+}
+
+.translate(@x:0, @y:0) {
+  -moz-transform: translate(@x, @y);
+  -webkit-transform: translate(@x, @y);
+  -o-transform: translate(@x, @y);
+  -ms-transform: translate(@x, @y);
+  transform: translate(@x, @y);
+}
+
+.transform(@transform) {
+  -moz-transform: translate(@transform);
+  -webkit-transform: translate(@transform);
+  -o-transform: translate(@transform);
+  -ms-transform: translate(@transform);
+  transform: translate(@transform);
+}
+
+.transform-style(@transform-style) {
+  -webkit-transform-style: @transform-style;
+  -moz-transform-style: @transform-style;
+  -o-transform-style: @transform-style;
+  transform-style: @transform-style;
+}
+
+.backface-visibility(@backface-visibility) {
+  -webkit-backface-visibility: @backface-visibility;
+  -moz-backface-visibility: @backface-visibility;
+  backface-visibility: @backface-visibility;
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Buttons
+.button(@color: #f5f5f5, @textColor: #333, @textShadow: 0 1px 1px rgba(255,255,255,.75), @fontSize: 13px, @padding: 9px 15px 10px, @borderRadius: 6px) {
+  display: inline-block;
+  #gradient > .vertical(@color,darken(saturate(@color,10),10));
+  padding: @padding;
+  text-shadow: @textShadow;
+  color: @textColor;
+  font-size: @fontSize;
+  line-height: 20px;
+  .border-radius(@borderRadius);
+  @shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.25);
+  .box-shadow(@shadow);
+  &:hover {
+    background-position: 0 -15px;
+    color: @textColor;
+    text-decoration: none;
+  }
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Border Radius
+.border-radius(@radius: 5px) {
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+// Drop shadows
+.box-shadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) {
+  -webkit-box-shadow: @shadow;
+  -moz-box-shadow: @shadow;
+  box-shadow: @shadow;
+}
+
+// Add an alphatransparency value to any background or border color (via Elyse Holladay)
+#translucent {
+  .background(@color: @white, @alpha: 1) {
+    background-color: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+  }
+  .border(@color: @white, @alpha: 1) {
+    border-color: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+    background-clip: padding-box;
+  }
+}
+
+// Gradients
+#gradient {
+  .horizontal (@startColor: #555, @endColor: #333) {
+    background-color: @endColor;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, right top, from(@startColor), to(@endColor)); /* Konqueror */
+    background-image: -moz-linear-gradient(left, @startColor, @endColor); /* FF 3.6+ */
+    background-image: -ms-linear-gradient(left, @startColor, @endColor); /* IE10 */
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, @startColor), color-stop(100%, @endColor)); /* Safari 4+, Chrome 2+ */
+    background-image: -webkit-linear-gradient(left, @startColor, @endColor); /* Safari 5.1+, Chrome 10+ */
+    background-image: -o-linear-gradient(left, @startColor, @endColor); /* Opera 11.10 */
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@startColor,@endColor)); /* IE6 & IE7 */
+    -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@startColor,@endColor); /* IE8+ */
+    background-image: linear-gradient(left, @startColor, @endColor); /* the standard */
+  }
+  .vertical (@startColor: #555, @endColor: #333) {
+    background-color: @endColor;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(@startColor), to(@endColor)); /* Konqueror */
+    background-image: -moz-linear-gradient(@startColor, @endColor); /* FF 3.6+ */
+    background-image: -ms-linear-gradient(@startColor, @endColor); /* IE10 */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @startColor), color-stop(100%, @endColor)); /* Safari 4+, Chrome 2+ */
+    background-image: -webkit-linear-gradient(@startColor, @endColor); /* Safari 5.1+, Chrome 10+ */
+    background-image: -o-linear-gradient(@startColor, @endColor); /* Opera 11.10 */
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@startColor,@endColor)); /* IE6 & IE7 */
+    -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@startColor,@endColor); /* IE8+ */
+    background-image: linear-gradient(@startColor, @endColor); /* the standard */
+  }
+  .directional (@startColor: #555, @endColor: #333, @deg: 45deg) {
+    background-color: @endColor;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(@deg, @startColor, @endColor); /* FF 3.6+ */
+    background-image: -ms-linear-gradient(@deg, @startColor, @endColor); /* IE10 */
+    background-image: -webkit-linear-gradient(@deg, @startColor, @endColor); /* Safari 5.1+, Chrome 10+ */
+    background-image: -o-linear-gradient(@deg, @startColor, @endColor); /* Opera 11.10 */
+    background-image: linear-gradient(@deg, @startColor, @endColor); /* the standard */
+  }
+  .vertical-three-colors(@startColor: #00b3ee, @midColor: #7a43b6, @colorStop: 0.5, @endColor: #c3325f) {
+    background-color: @endColor;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), color-stop(@colorStop, @midColor), to(@endColor));
+    background-image: -webkit-linear-gradient(@startColor, color-stop(@colorStop, @midColor), @endColor);
+    background-image: -moz-linear-gradient(@startColor, color-stop(@midColor, @colorStop), @endColor);
+  }
+}
+
+
+// Opacity
+.opacity(@opacity: 100) {
+  filter: e(%("alpha(opacity=%d)", @opacity));
+  -khtml-opacity: @op / 100;
+  -moz-opacity: @op / 100;
+  opacity: @op / 100;
+}
+
+// ~~~~~~~~~~~~~~~~~~~
+
+// Based on Eric Meyers' reset 2.0 - http://meyerweb.com/eric/tools/css/reset/index.html 
+// & the Compass Reset utility - http://compass-style.org/reference/compass/reset/utilities/
+#reset {
+  .global-reset {
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      #reset > .reset-box-model;
+      #reset > .reset-font; 
+    }
+    body {
+      #reset > .reset-body; 
+    }
+    ol, ul {
+      #reset > .reset-list-style; 
+    }
+    table {
+      #reset > .reset-table; 
+    }
+    caption, th, td {
+      #reset > .reset-table-cell; 
+    }
+    q, blockquote {
+      #reset > .reset-quotation; 
+    }
+    a img {
+      #reset > .reset-image-anchor-border; 
+    }
+    #reset > .reset-html5;
+  }
+  .reset-box-model {
+    margin: 0;
+    padding: 0;
+    border: 0; 
+  }
+  .reset-font {
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+  .reset-focus {
+    outline: 0;
+  }
+  .reset-body {
+    line-height: 1;
+  }
+  .reset-list-style {
+    list-style: none;
+  }
+  .reset-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .reset-table-cell {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+  }
+  .reset-quotation {
+    quotes: none;
+    &:before, &:after {
+      content: ""; 
+      content: none;
+    }
+  }
+  .reset-image-anchor-border {
+    border: none;
+  }
+  .reset-html5 {
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+  }
+}
+
+/* Misc.
+-------------------------------------------------- */
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
