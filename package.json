@@ -1,0 +1,12 @@
+{
+  "name": "chwat-github-com",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "lessc less/base.less css/base.min.css",
+    "watch": "lessc --watch less/base.less css/base.min.css"
+  },
+  "devDependencies": {
+    "less": "^4.2.0"
+  }
+}
